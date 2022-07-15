@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">WNEWS</string>
+
+    <string name="home">Home</string>
+    <string name="favorites">Favorites</string>
+    <string name="search">Search</string>
+
+    <string name="wnews">WNews</string>
+    <string name="wnewshome">home</string>
+    <string name="wnewsfavorite">favorite</string>
+    <string name="wnewssearch">search</string>
+    <string name="enterRequest">Enter the query in English</string>
+    <string name="main">All News</string>
+    <string name="sport">Sport</string>
+    <string name="business">Business</string>
+    <string name="entertainment">Entertainment</string>
+    <string name="health">Health</string>
+    <string name="science">Science</string>
+    <string name="technology">Technology</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

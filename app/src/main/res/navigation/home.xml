@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/viewpager_home"
+    app:startDestination="@id/viewPager2Fragment">
+
+    <fragment
+        android:id="@+id/viewPager2Fragment"
+        android:name="com.dev_marinov.wnews.presentation.home.HomeFragment"
+        android:label="ViewPager2Fragment">
+        <action
+            android:id="@+id/action_viewPager2Fragment_to_allNewsFragment"
+            app:destination="@id/allNewsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/allNewsFragment"
+        android:name="com.dev_marinov.wnews.presentation.home.tabfragments.allnews.AllNewsFragment"
+        android:label="AllNewsFragment" >
+        <action
+            android:id="@+id/action_allNewsFragment_to_allNewsWebViewFragment"
+            app:destination="@id/allNewsWebViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/allNewsWebViewFragment"
+        android:name="com.dev_marinov.geniussonglyrics.presentation.webview.AllNewsWebViewFragment"
+        android:label="AllNewsWebViewFragment" >
+    <argument
+        android:name="url"
+        app:argType="string"
+        android:defaultValue='' />
+    </fragment>
+
+
+</navigation>
