@@ -13,8 +13,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dev_marinov.wnews.R
 import com.dev_marinov.wnews.databinding.FragmentAllNewsBinding
 import com.dev_marinov.wnews.databinding.FragmentSportBinding
+import com.dev_marinov.wnews.presentation.home.HomeFragmentDirections
 import com.dev_marinov.wnews.presentation.home.tabfragments.allnews.AllNewsAdapter
-import com.dev_marinov.wnews.presentation.home.tabfragments.allnews.AllNewsFragmentDirections
+
 import com.dev_marinov.wnews.presentation.home.tabfragments.allnews.AllNewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -67,21 +68,14 @@ class SportFragment : Fragment() {
 
         viewModel.sportNews.observe(viewLifecycleOwner){
             sportAdapter.refreshNews(it)
+            binding.swipeContainer.isRefreshing = true;
         }
 
-//        ////        adapterListHome.notifyDataSetChanged();
-//        Handler().postDelayed({
-//            try {
-//                activity!!.runOnUiThread {
-//                    staggeredGridLayoutManager.scrollToPositionWithOffset(
-//                        lastVisableItem,
-//                        0
-//                    )
-//                }
-//            } catch (e: Exception) {
-//                Log.e("444", "-try catch FragmentHome 1-$e")
-//            }
-//        }, 500)
+        // ВОЗМОЖНО НЕ ПРАВИЛЬНО ЧТО ОБРАЩАЮСЬ К viewModel
+        binding.swipeContainer.setOnRefreshListener {
+            binding.swipeContainer.isRefreshing = true;
+            viewModel.getCategoryNews()
+        }
     }
 
     private fun setUpNavigation(){
@@ -91,7 +85,7 @@ class SportFragment : Fragment() {
     }
 
     private fun navigateToWebViewFragment(url: String) {
-        val action = AllNewsFragmentDirections.actionAllNewsFragmentToAllNewsWebViewFragment("https://google.com")
+        val action = HomeFragmentDirections.actionViewPager2FragmentToSportWebViewFragment("https://google.com")
         findNavController().navigate(action)
     }
 }

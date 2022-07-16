@@ -12,6 +12,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dev_marinov.wnews.R
 import com.dev_marinov.wnews.databinding.FragmentAllNewsBinding
+import com.dev_marinov.wnews.presentation.favorites.FavoritesFragment
+import com.dev_marinov.wnews.presentation.home.HomeFragmentDirections
 
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -53,7 +55,7 @@ class AllNewsFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[AllNewsViewModel::class.java]
 
-        val homeAdapter = AllNewsAdapter(viewModel::onClick)
+        val homeAdapter = AllNewsAdapter(viewModel::onClick, viewModel::onClickFavorite )
 
         val staggeredGridLayoutManager = StaggeredGridLayoutManager(column, StaggeredGridLayoutManager.VERTICAL);
 
@@ -65,23 +67,20 @@ class AllNewsFragment : Fragment() {
 
         viewModel.homeNews.observe(viewLifecycleOwner){
             homeAdapter.refreshNews(it)
+            binding.swipeContainer.isRefreshing = false;
         }
 
+        // ВОЗМОЖНО НЕ ПРАВИЛЬНО ЧТО ОБРАЩАЮСЬ К viewModel
+        binding.swipeContainer.setOnRefreshListener {
+            binding.swipeContainer.isRefreshing = true;
+            viewModel.getHomeNews()
+        }
 
+        // viewModel передает во фграмент список фаворит
+        viewModel.newsFavorite.observe(viewLifecycleOwner){
+            FavoritesFragment.createInstance(it)
+        }
 
-//        ////        adapterListHome.notifyDataSetChanged();
-//        Handler().postDelayed({
-//            try {
-//                activity!!.runOnUiThread {
-//                    staggeredGridLayoutManager.scrollToPositionWithOffset(
-//                        lastVisableItem,
-//                        0
-//                    )
-//                }
-//            } catch (e: Exception) {
-//                Log.e("444", "-try catch FragmentHome 1-$e")
-//            }
-//        }, 500)
     }
 
     private fun setUpNavigation(){
@@ -91,7 +90,7 @@ class AllNewsFragment : Fragment() {
     }
 
     private fun navigateToWebViewFragment(url: String) {
-        val action = AllNewsFragmentDirections.actionAllNewsFragmentToAllNewsWebViewFragment("https://yandex.ru")
+        val action = HomeFragmentDirections.actionViewPager2FragmentToAllNewsWebViewFragment(url = url)
         findNavController().navigate(action)
     }
 }

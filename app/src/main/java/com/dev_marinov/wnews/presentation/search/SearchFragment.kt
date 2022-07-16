@@ -20,7 +20,6 @@ import androidx.transition.TransitionManager
 import com.dev_marinov.wnews.R
 import com.dev_marinov.wnews.databinding.FragmentSearchBinding
 import com.dev_marinov.wnews.databinding.FragmentSportBinding
-import com.dev_marinov.wnews.presentation.home.tabfragments.allnews.AllNewsFragmentDirections
 import com.dev_marinov.wnews.presentation.home.tabfragments.sport.SportAdapter
 import com.dev_marinov.wnews.presentation.home.tabfragments.sport.SportViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,12 +62,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun setLayout(column: Int) {
-        //////////////////////////////
-        binding.tvTitle.setOnClickListener {
-            val action = SearchFragmentDirections.actionSearchFragmentToSearchWebViewFragment("http://yandex.ru")
-            findNavController().navigate(action)
-        }
-        /////////////////////////////////
+
         viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
 
         val searchAdapter = SearchAdapter(viewModel::onClick)
@@ -96,19 +90,6 @@ class SearchFragment : Fragment() {
         val width = size.x
         val height = size.y
 
-
-//        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                val lastVisibleItemPositions =
-//                    staggeredGridLayoutManager.findFirstVisibleItemPositions(null)
-//                searchViewModel.lastVisibleItemSearch = getMaxPosition(lastVisibleItemPositions)
-//            }
-//
-//            private fun getMaxPosition(positions: IntArray): Int {
-//                return positions[0]
-//            }
-//        })
-
         binding.imgFragmentSearch.setOnClickListener(View.OnClickListener {
             layoutChange()
             val stringSearch = binding.textInputEditText.text.toString()
@@ -124,23 +105,11 @@ class SearchFragment : Fragment() {
             }
 
             viewModel.getSearchNews(q)
-            //getDataSearchNews(q) // текст, который введен в edittext
         })
 
         viewModel.searchNews.observe(viewLifecycleOwner){
             searchAdapter.refreshNews(it)
         }
-
-
-//        Handler().postDelayed({
-//            try {
-//                requireActivity().runOnUiThread {
-//                    staggeredGridLayoutManager.scrollToPositionWithOffset(searchViewModel.lastVisibleItemSearch, 0)
-//                }
-//            } catch (e: Exception) {
-//                Log.e("444", "-try catch FragmentSearch 1 -$e")
-//            }
-//        }, 500)
     }
 
     private fun setUpNavigation(){
@@ -156,13 +125,9 @@ class SearchFragment : Fragment() {
 
     private fun layoutChange() {
         val constraintSet = ConstraintSet()
-        // copy constraints settings from current ConstraintLayout to set
         constraintSet.clone(binding.clFragSearch)
-        // change constraints settings
         changeConstraints(constraintSet)
-        // enable animation
         TransitionManager.beginDelayedTransition(binding.clFragSearch)
-        // apply constraints settings from set to current ConstraintLayout
         constraintSet.applyTo(binding.clFragSearch)
     }
 

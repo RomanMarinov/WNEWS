@@ -25,6 +25,9 @@ class AllNewsViewModel @Inject constructor(
     private val _homeNews: MutableLiveData<List<News>> = MutableLiveData()
     val homeNews: LiveData<List<News>> = _homeNews
 
+    private val _newsFavorite: MutableLiveData<List<News>> = MutableLiveData()
+    val newsFavorite: LiveData<List<News>> = _newsFavorite
+
     private val _uploadData = SingleLiveEvent<String>()
     val uploadData: SingleLiveEvent<String> = _uploadData
 
@@ -38,7 +41,12 @@ class AllNewsViewModel @Inject constructor(
         uploadData.postValue(url)
     }
 
-    private fun getHomeNews(){
+    fun onClickFavorite(news: News){
+        _newsFavorite.postValue(listOf(news))
+    }
+
+
+    fun getHomeNews(){
         viewModelScope.launch(Dispatchers.IO) {
             iNewsRepository.getNews(country, pageSize, api).let {
                 val list: MutableList<News> = _homeNews.value?.toMutableList()?: mutableListOf()

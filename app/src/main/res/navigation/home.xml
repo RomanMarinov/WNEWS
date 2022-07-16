@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/viewpager_home"
+    android:id="@+id/home"
     app:startDestination="@id/viewPager2Fragment">
 
     <fragment
@@ -9,17 +9,16 @@
         android:name="com.dev_marinov.wnews.presentation.home.HomeFragment"
         android:label="ViewPager2Fragment">
         <action
-            android:id="@+id/action_viewPager2Fragment_to_allNewsFragment"
-            app:destination="@id/allNewsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/allNewsFragment"
-        android:name="com.dev_marinov.wnews.presentation.home.tabfragments.allnews.AllNewsFragment"
-        android:label="AllNewsFragment" >
-        <action
-            android:id="@+id/action_allNewsFragment_to_allNewsWebViewFragment"
+            android:id="@+id/action_viewPager2Fragment_to_allNewsWebViewFragment"
             app:destination="@id/allNewsWebViewFragment" />
+        <action
+            android:id="@+id/action_viewPager2Fragment_to_sportWebViewFragment"
+            app:destination="@id/sportWebViewFragment" />
+        <action
+            android:id="@+id/action_viewPager2Fragment_to_businessWebViewFragment"
+            app:destination="@id/businessWebViewFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/allNewsWebViewFragment"
         android:name="com.dev_marinov.geniussonglyrics.presentation.webview.AllNewsWebViewFragment"
@@ -31,4 +30,22 @@
     </fragment>
 
 
+    <fragment
+        android:id="@+id/sportWebViewFragment"
+        android:name="com.dev_marinov.geniussonglyrics.presentation.webview.SportWebViewFragment"
+        android:label="SportWebViewFragment" >
+        <argument
+            android:name="url"
+            app:argType="string"
+            android:defaultValue='' />
+    </fragment>
+    <fragment
+        android:id="@+id/businessWebViewFragment"
+        android:name="com.dev_marinov.wnews.presentation.home.tabfragments.business.businesswebview.BusinessWebViewFragment"
+        android:label="BusinessWebViewFragment" >
+        <argument
+            android:name="url"
+            app:argType="string"
+            android:defaultValue='' />
+    </fragment>
 </navigation>

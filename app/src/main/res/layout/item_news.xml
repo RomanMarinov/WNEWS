@@ -24,7 +24,7 @@
 
             <TextView
                 android:id="@+id/tvTitle"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:ellipsize="end"
@@ -35,10 +35,28 @@
                 android:textSize="13sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/img"
-
+                app:layout_constraintRight_toLeftOf="@id/llFavorite"
                 />
+
+            <LinearLayout
+                android:id="@+id/llFavorite"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/tvTitle"
+                app:layout_constraintRight_toRightOf="parent"
+                >
+                <ImageView
+                    android:id="@+id/imgFavorite"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_favorite_off"
+                    />
+
+            </LinearLayout>
+
 
             <ImageView
                 android:id="@+id/img"
