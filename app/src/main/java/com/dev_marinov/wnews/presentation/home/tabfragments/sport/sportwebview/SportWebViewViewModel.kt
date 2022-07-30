@@ -1,4 +1,4 @@
-package com.dev_marinov.geniussonglyrics.presentation.webview
+package com.dev_marinov.wnews.presentation.home.tabfragments.sport.sportwebview
 
 import androidx.lifecycle.ViewModel
 import java.util.*

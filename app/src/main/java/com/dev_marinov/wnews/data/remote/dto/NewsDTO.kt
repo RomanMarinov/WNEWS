@@ -13,13 +13,11 @@ data class NewsDTO(
     @SerializedName("description")
     val description: String?,
     @SerializedName("url")
-    val url: String?,
+    val url: String,
     @SerializedName("urlToImage")
     val urlToImage: String?,
     @SerializedName("publishedAt")
     val publishedAt: String?
-//    @SerializedName("content")
-//    val content: String?,
 ) {
     fun mapToDomain() : News {
         return News(
@@ -29,7 +27,6 @@ data class NewsDTO(
             url = url,
             urlToImage = urlToImage,
             publishedAt = publishedAt
-            //content = content
         )
     }
 }

@@ -1,4 +1,4 @@
-package com.dev_marinov.geniussonglyrics.presentation.webview
+package com.dev_marinov.wnews.presentation.home.tabfragments.sport.sportwebview
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.navArgs
 import com.dev_marinov.wnews.R
-import com.dev_marinov.wnews.databinding.FragmentWebViewAllNewsBinding
 import com.dev_marinov.wnews.databinding.FragmentWebViewSportBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,14 +21,14 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SportWebViewFragment : Fragment() {
     private lateinit var binding: FragmentWebViewSportBinding
-    lateinit var sportWebViewViewModel: SportWebViewViewModel
+    lateinit var viewModel: SportWebViewViewModel
     private lateinit var callback: OnBackPressedCallback
     private val args: SportWebViewFragmentArgs by navArgs()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         Log.e("444", "зашел в FragmentWebView")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_web_view_sport, container, false)
-        sportWebViewViewModel = ViewModelProvider(requireActivity())[SportWebViewViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[SportWebViewViewModel::class.java]
 
         return binding.root
     }
@@ -45,23 +44,23 @@ class SportWebViewFragment : Fragment() {
     }
 
     private fun addUrlToStack(){
-        if (!sportWebViewViewModel.urlListStack.isEmpty()) {
-            if (sportWebViewViewModel.urlListStack.size == 1
-                && sportWebViewViewModel.urlListStack.peek().toString() != args.url) {
-                sportWebViewViewModel.urlListStack.clear()
-                sportWebViewViewModel.urlListStack.add(args.url)
+        if (!viewModel.urlListStack.isEmpty()) {
+            if (viewModel.urlListStack.size == 1
+                && viewModel.urlListStack.peek().toString() != args.url) {
+                viewModel.urlListStack.clear()
+                viewModel.urlListStack.add(args.url)
                 Log.e("444", "arguments?.let IF it.getString(KEY_URL )" + args.url)
                 Log.e("444", "arguments?.let IF")
             }
         } else {
-            sportWebViewViewModel.urlListStack.add(args.url)
+            viewModel.urlListStack.add(args.url)
         }
     }
 
     private fun loadUrl(){
-        binding.webView.loadUrl(sportWebViewViewModel.urlListStack.peek())
-        Log.e("444", "arguments?.let размер urlListStack.size=" + sportWebViewViewModel.urlListStack.size +
-                " содержимое urlListStack=" + sportWebViewViewModel.urlListStack)
+        binding.webView.loadUrl(viewModel.urlListStack.peek())
+        Log.e("444", "arguments?.let размер urlListStack.size=" + viewModel.urlListStack.size +
+                " содержимое urlListStack=" + viewModel.urlListStack)
     }
 
     private fun setWebViewClient(){
@@ -69,8 +68,8 @@ class SportWebViewFragment : Fragment() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 Log.e("444", "----------------- onPageStarted -----------------")
                 Log.e("444", "onPageStarted сейчас ты видишь =" +  binding.webView.url)
-                sportWebViewViewModel.backStatus = true
-                callback.isEnabled = sportWebViewViewModel.urlListStack.size != 1
+                viewModel.backStatus = true
+                callback.isEnabled = viewModel.urlListStack.size != 1
 
                 super.onPageStarted(view, url, favicon)
             }
@@ -78,9 +77,9 @@ class SportWebViewFragment : Fragment() {
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
                 view.loadUrl(request.url.toString())
                 Log.e("444","=shouldOverrideUrlLoading request добавил в urlListStack.add =" + request.url.toString())
-                sportWebViewViewModel.urlListStack.add(request.url.toString())
-                Log.e("444","=shouldOverrideUrlLoading размер urlListStack.size=" + sportWebViewViewModel.urlListStack.size +
-                        " содержимое urlListStack=" + sportWebViewViewModel.urlListStack)
+                viewModel.urlListStack.add(request.url.toString())
+                Log.e("444","=shouldOverrideUrlLoading размер urlListStack.size=" + viewModel.urlListStack.size +
+                        " содержимое urlListStack=" + viewModel.urlListStack)
                 return true
             }
         }
@@ -91,26 +90,26 @@ class SportWebViewFragment : Fragment() {
             override fun handleOnBackPressed() {
                 Log.e("444", "нажал OnBackPressedCallback")
                 // можно удалить только после того как сработает onPageStarted
-                if (sportWebViewViewModel.backStatus) {
+                if (viewModel.backStatus) {
                     Log.e("444", "OnBackPressedCallback удалил последний элемент")
-                    sportWebViewViewModel.urlListStack.pop() // удалить последний элемент
-                    sportWebViewViewModel.backStatus = false
+                    viewModel.urlListStack.pop() // удалить последний элемент
+                    viewModel.backStatus = false
                 }
 
-                if (!sportWebViewViewModel.urlListStack.isEmpty()) {
-                    binding.webView.loadUrl(sportWebViewViewModel.urlListStack.peek()) // загрузить последний элемент списка
-                    Log.e("444", "OnBackPressedCallback размер urlListStack.size=" + sportWebViewViewModel.urlListStack.size +
-                            " содержимое urlListStack=" + sportWebViewViewModel.urlListStack)
+                if (!viewModel.urlListStack.isEmpty()) {
+                    binding.webView.loadUrl(viewModel.urlListStack.peek()) // загрузить последний элемент списка
+                    Log.e("444", "OnBackPressedCallback размер urlListStack.size=" + viewModel.urlListStack.size +
+                            " содержимое urlListStack=" + viewModel.urlListStack)
                 } else {
                     callback.remove()
                 }
 
-                if(sportWebViewViewModel.urlListStack.size == 1) {
-                    Log.e("444", "OnBackPressedCallback callback.remove urlListStack.size=" + sportWebViewViewModel.urlListStack.size)
+                if(viewModel.urlListStack.size == 1) {
+                    Log.e("444", "OnBackPressedCallback callback.remove urlListStack.size=" + viewModel.urlListStack.size)
                     callback.remove()
-                    sportWebViewViewModel.urlListStack.clear()
-                    Log.e("444", "OnBackPressedCallback размер ПОСЛЕ CLEAR urlListStack.size=" + sportWebViewViewModel.urlListStack.size +
-                            " содержимое urlListStack=" + sportWebViewViewModel.urlListStack)
+                    viewModel.urlListStack.clear()
+                    Log.e("444", "OnBackPressedCallback размер ПОСЛЕ CLEAR urlListStack.size=" + viewModel.urlListStack.size +
+                            " содержимое urlListStack=" + viewModel.urlListStack)
                 }
             }
         }

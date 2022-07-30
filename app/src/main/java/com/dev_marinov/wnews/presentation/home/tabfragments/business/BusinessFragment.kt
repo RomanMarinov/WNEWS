@@ -1,23 +1,34 @@
 package com.dev_marinov.wnews.presentation.home.tabfragments.business
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dev_marinov.wnews.R
 import com.dev_marinov.wnews.databinding.FragmentBusinessBinding
 import com.dev_marinov.wnews.databinding.FragmentSportBinding
 import com.dev_marinov.wnews.databinding.FragmentWebViewBusinessBinding
 import com.dev_marinov.wnews.presentation.home.HomeFragmentDirections
-import com.dev_marinov.wnews.presentation.home.tabfragments.sport.SportAdapter
-import com.dev_marinov.wnews.presentation.home.tabfragments.sport.SportViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class BusinessFragment : Fragment() {
@@ -53,10 +64,13 @@ class BusinessFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("UnsafeRepeatOnLifecycleDetector")
     private fun setLayout(column: Int){
         viewModel = ViewModelProvider(this)[BusinessViewModel::class.java]
 
-        val adapter = BusinessAdapter(viewModel::onClick)
+        val adapter = BusinessAdapter(viewModel::onClick, viewModel::onClickFavorite)
+
+        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
         val staggeredGridLayoutManager = StaggeredGridLayoutManager(column, StaggeredGridLayoutManager.VERTICAL);
 
@@ -66,15 +80,24 @@ class BusinessFragment : Fragment() {
             this.adapter = adapter
         }
 
-        viewModel.news.observe(viewLifecycleOwner){
-            adapter.refreshNews(it)
-            binding.swipeContainer.isRefreshing = false;
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED){
+                viewModel.news.collectLatest {
+                    adapter.submitList(it)
+                }
+            }
         }
 
-        // ВОЗМОЖНО НЕ ПРАВИЛЬНО ЧТО ОБРАЩАЮСЬ К viewModel
+        lifecycleScope.launchWhenStarted {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.swipe.collect {
+                    binding.swipeContainer.isRefreshing = it
+                }
+            }
+        }
+
         binding.swipeContainer.setOnRefreshListener {
-            binding.swipeContainer.isRefreshing = true;
-            viewModel.getCategoryNews()
+            viewModel.onSwipe()
         }
     }
 
@@ -85,7 +108,8 @@ class BusinessFragment : Fragment() {
     }
 
     private fun navigateToWebViewFragment(url: String) {
-        val action = HomeFragmentDirections.actionViewPager2FragmentToSportWebViewFragment("https://yandex.ru")
+        val action = HomeFragmentDirections.actionViewPager2FragmentToBusinessWebViewFragment(url)
         findNavController().navigate(action)
     }
+
 }

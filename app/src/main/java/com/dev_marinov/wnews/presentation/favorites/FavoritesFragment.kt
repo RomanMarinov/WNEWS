@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dev_marinov.wnews.R
@@ -17,11 +19,13 @@ import com.dev_marinov.wnews.domain.News
 import com.dev_marinov.wnews.presentation.home.HomeFragmentDirections
 import com.dev_marinov.wnews.presentation.home.tabfragments.business.BusinessAdapter
 import com.dev_marinov.wnews.presentation.home.tabfragments.business.BusinessViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavoritesFragment : Fragment() {
 
     lateinit var binding: FragmentFavoritesBinding
-    lateinit var viewModel: FavoritesViewModel
+    private val viewModel by viewModels<FavoritesViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,9 +56,8 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun setLayout(column: Int){
-        viewModel = ViewModelProvider(this)[FavoritesViewModel::class.java]
 
-        val adapter = BusinessAdapter(viewModel::onClick)
+        val adapter = FavoritesAdapter(viewModel::onClick, viewModel::onClickFavorite)
 
         val staggeredGridLayoutManager = StaggeredGridLayoutManager(column, StaggeredGridLayoutManager.VERTICAL);
 
@@ -64,25 +67,30 @@ class FavoritesFragment : Fragment() {
             this.adapter = adapter
         }
 
-        viewModel.news.observe(viewLifecycleOwner){
-            adapter.refreshNews(it)
+        viewModel.news.asLiveData().observe(viewLifecycleOwner){
+            adapter.submitList(it)
         }
 
-    }
+}
 
 
-    companion object {
-        val KEY_URL = "key_url"
 
-        fun createInstance(listFav: List<News>) : FavoritesFragment {
 
-            val fragment = FavoritesFragment()
-            val bundle = Bundle()
-            bundle.putStringArrayList(KEY_URL, listFav)
-            fragment.arguments = bundle
-            return fragment
-        }
-    }
+
+
+
+
+//    companion object {
+//        val KEY_URL = "key_url"
+//
+//        fun createInstance(listFav: List<News>) : FavoritesFragment {
+//            val fragment = FavoritesFragment()
+//            val bundle = Bundle()
+//            bundle.putStringArrayList(KEY_URL, listFav)
+//            fragment.arguments = bundle
+//            return fragment
+//        }
+//    }
 
 
 //    private fun setUpNavigation(){

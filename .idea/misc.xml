@@ -3,35 +3,52 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/drawable-v24/background_message.xml" value="0.24010416666666667" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/drawable-v24/gradient.xml" value="0.19814814814814816" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/drawable-v24/gradient_3.xml" value="0.19814814814814816" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/drawable-v24/ic_favorite.xml" value="0.24010416666666667" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/drawable-v24/ic_search.xml" value="0.24010416666666667" />
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/drawable-v24/rounded_edittext.xml" value="0.24010416666666667" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/drawable/bottom_nav_icon_color_selector.xml" value="0.24010416666666667" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/drawable/gradient_2.xml" value="0.19814814814814816" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/drawable/gradient_3.xml" value="0.12604166666666666" />
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/drawable/gradient_down_top.xml" value="0.24010416666666667" />
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/drawable/gradient_top_down.xml" value="0.24010416666666667" />
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/drawable/ic_favorite.xml" value="0.24010416666666667" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/drawable/ic_favorite_off.xml" value="0.24010416666666667" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/drawable/ic_favorite_on.xml" value="0.24010416666666667" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/drawable/rounded_second_buttons.xml" value="0.19814814814814816" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout-land/fragment_home.xml" value="0.34739583333333335" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout-land/fragment_view_pager2.xml" value="0.26510416666666664" />
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout-land/item_news_favorite.xml" value="0.3671875" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/activity_news.xml" value="0.16895999484375016" />
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/activity_news.xml" value="0.19199999414062519" />
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_all_news.xml" value="0.22395833333333334" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_business.xml" value="0.22395833333333334" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_entertainment.xml" value="0.22395833333333334" />
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_entertainment_web_view.xml" value="0.20989583333333334" />
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_exit_dialog.xml" value="0.22395833333333334" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_favorites.xml" value="0.2205128205128205" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_health.xml" value="0.22395833333333334" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_home.xml" value="0.22395833333333334" />
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_science.xml" value="0.10989583333333333" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_search.xml" value="0.30842105263157893" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_sport.xml" value="0.22395833333333334" />
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_technology.xml" value="0.22395833333333334" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_test.xml" value="0.22395833333333334" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_view_pager2.xml" value="0.25343999226562525" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_web_view_all_news.xml" value="0.22395833333333334" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_web_view_business.xml" value="0.22395833333333334" />
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_web_view_health.xml" value="0.22395833333333334" />
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_web_view_science.xml" value="0.22395833333333334" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_web_view_search.xml" value="0.10989583333333333" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_web_view_sport.xml" value="0.22395833333333334" />
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/fragment_web_view_technology.xml" value="0.22395833333333334" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/item_list.xml" value="0.10989583333333333" />
-        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/item_news.xml" value="0.43336623889437315" />
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/item_news.xml" value="0.5145599842968755" />
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/item_news_fav.xml" value="0.22395833333333334" />
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/layout_message.xml" value="0.3891402714932127" />
+        <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/layout_snackbar.xml" value="0.5759999824218756" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/scene_animation_1.xml" value="0.22395833333333334" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/layout/scene_animation_2.xml" value="0.10989583333333333" />
         <entry key="..\:/I_AM/PROFESSION_DEVELOPER/MY_PROJECTS/WORK_PROJECTS/kotlin/WNEWS/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22395833333333334" />

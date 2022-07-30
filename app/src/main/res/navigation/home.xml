@@ -17,11 +17,23 @@
         <action
             android:id="@+id/action_viewPager2Fragment_to_businessWebViewFragment"
             app:destination="@id/businessWebViewFragment" />
+        <action
+            android:id="@+id/action_viewPager2Fragment_to_entertainmentWebViewFragment"
+            app:destination="@id/entertainmentWebViewFragment" />
+        <action
+            android:id="@+id/action_viewPager2Fragment_to_healthWebViewFragment"
+            app:destination="@id/healthWebViewFragment" />
+        <action
+            android:id="@+id/action_viewPager2Fragment_to_scienceWebViewFragment"
+            app:destination="@id/scienceWebViewFragment" />
+        <action
+            android:id="@+id/action_viewPager2Fragment_to_technologyWebViewFragment"
+            app:destination="@id/technologyWebViewFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/allNewsWebViewFragment"
-        android:name="com.dev_marinov.geniussonglyrics.presentation.webview.AllNewsWebViewFragment"
+        android:name="com.dev_marinov.wnews.presentation.home.tabfragments.allnews.allnewswebview.AllNewsWebViewFragment"
         android:label="AllNewsWebViewFragment" >
     <argument
         android:name="url"
@@ -32,7 +44,7 @@
 
     <fragment
         android:id="@+id/sportWebViewFragment"
-        android:name="com.dev_marinov.geniussonglyrics.presentation.webview.SportWebViewFragment"
+        android:name="com.dev_marinov.wnews.presentation.home.tabfragments.sport.sportwebview.SportWebViewFragment"
         android:label="SportWebViewFragment" >
         <argument
             android:name="url"
@@ -48,4 +60,41 @@
             app:argType="string"
             android:defaultValue='' />
     </fragment>
+    <fragment
+        android:id="@+id/entertainmentWebViewFragment"
+        android:name="com.dev_marinov.wnews.presentation.home.tabfragments.entertainment.entertainmentwebview.EntertainmentWebViewFragment"
+        android:label="EntertainmentWebViewFragment" >
+        <argument
+            android:name="url"
+            app:argType="string"
+            android:defaultValue='' />
+    </fragment>
+    <fragment
+        android:id="@+id/healthWebViewFragment"
+        android:name="com.dev_marinov.wnews.presentation.home.tabfragments.health.healthwebview.HealthWebViewFragment"
+        android:label="HealthWebViewFragment" >
+        <argument
+            android:name="url"
+            app:argType="string"
+            android:defaultValue='' />
+    </fragment>
+    <fragment
+        android:id="@+id/scienceWebViewFragment"
+        android:name="com.dev_marinov.wnews.presentation.home.tabfragments.science.sciencewebview.ScienceWebViewFragment"
+        android:label="ScienceWebViewFragment" >
+        <argument
+            android:name="url"
+            app:argType="string"
+            android:defaultValue='' />
+    </fragment>
+    <fragment
+        android:id="@+id/technologyWebViewFragment"
+        android:name="com.dev_marinov.wnews.presentation.home.tabfragments.technology.technologywebview.TechnologyWebViewFragment"
+        android:label="TechnologyWebViewFragment"  >
+        <argument
+            android:name="url"
+            app:argType="string"
+            android:defaultValue='' />
+    </fragment>
+
 </navigation>

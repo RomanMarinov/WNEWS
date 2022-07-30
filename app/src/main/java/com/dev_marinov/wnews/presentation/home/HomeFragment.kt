@@ -61,8 +61,15 @@ class HomeFragment : Fragment() {
         // тут надо установить наблюдатель для viewPager2ViewModel.lastTab
 //            viewPager2ViewModel.lastTab.
 
-        binding.tabLayout.selectTab(binding.tabLayout.getTabAt(viewModel.lastTab))
-        binding.viewPager2.currentItem = viewModel.lastTab
+
+        viewModel.lastTab.observe(viewLifecycleOwner){
+            binding.tabLayout.selectTab(binding.tabLayout.getTabAt(it))
+            binding.viewPager2.currentItem = it
+        }
+
+
+//        binding.tabLayout.selectTab(binding.tabLayout.getTabAt(viewModel.lastTab))
+//        binding.viewPager2.currentItem = viewModel.lastTab
 
         setTabLayoutMediator(addHeadlinesTab())
         setViewPager2()
@@ -114,7 +121,9 @@ class HomeFragment : Fragment() {
             }
 
             override fun onPageSelected(position: Int) {
-                viewModel.lastTab = position
+                viewModel.onSelectTabPosition(position)
+
+                //viewModel.lastTab = position
                 Log.e("333", " onPageSelected position$position")
                 super.onPageSelected(position)
             }

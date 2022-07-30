@@ -1,60 +1,135 @@
 package com.dev_marinov.wnews.presentation.home.tabfragments.technology
 
+import android.annotation.SuppressLint
+import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import androidx.core.content.res.ResourcesCompat
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dev_marinov.wnews.R
+import com.dev_marinov.wnews.databinding.FragmentSportBinding
+import com.dev_marinov.wnews.databinding.FragmentTechnologyBinding
+import com.dev_marinov.wnews.presentation.home.HomeFragmentDirections
+import com.dev_marinov.wnews.presentation.home.tabfragments.science.ScienceAdapter
+import com.google.android.material.snackbar.Snackbar
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TechnologyFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@AndroidEntryPoint
 class TechnologyFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    lateinit var binding: FragmentTechnologyBinding
+    lateinit var viewModel: TechnologyViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_technology, container, false)
+    ): View {
+
+        return initInterFace(inflater, container)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TechnologyFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TechnologyFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpNavigation()
+    }
+
+    private fun initInterFace(inflater: LayoutInflater, container: ViewGroup?): View {
+        container?.let { container.removeAllViewsInLayout() }
+
+        val orientation = requireActivity().resources.configuration.orientation
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            binding = DataBindingUtil.inflate(inflater, R.layout.fragment_technology, container, false)
+            setLayout(1)
+        } else {
+            binding = DataBindingUtil.inflate(inflater, R.layout.fragment_technology, container, false)
+            setLayout(2)
+        }
+
+        return binding.root
+    }
+
+    @SuppressLint("UnsafeRepeatOnLifecycleDetector")
+    private fun setLayout(column: Int){
+        viewModel = ViewModelProvider(this)[TechnologyViewModel::class.java]
+
+        val adapter = ScienceAdapter(viewModel::onClick, viewModel::onClickFavorite)
+
+        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+
+        val staggeredGridLayoutManager = StaggeredGridLayoutManager(column, StaggeredGridLayoutManager.VERTICAL);
+
+        binding.recyclerView.apply {
+            setHasFixedSize(false)
+            layoutManager = staggeredGridLayoutManager
+            this.adapter = adapter
+        }
+
+//        viewModel.event.observe(viewLifecycleOwner, Observer {
+//            Log.e("333", "=it=$it")
+//            showMessage(it.message)
+//        })
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED){
+                viewModel.news.collectLatest {
+                    adapter.submitList(it)
                 }
             }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.swipe.collect {
+                    binding.swipeContainer.isRefreshing = it
+                }
+            }
+        }
+
+        binding.swipeContainer.setOnRefreshListener {
+            viewModel.onSwipe()
+        }
     }
+
+    private fun setUpNavigation(){
+        viewModel.uploadData.observe(viewLifecycleOwner) {
+            navigateToWebViewFragment(it)
+        }
+    }
+
+    private fun navigateToWebViewFragment(url: String) {
+        val action = HomeFragmentDirections.actionViewPager2FragmentToTechnologyWebViewFragment(url)
+        findNavController().navigate(action)
+    }
+
+
+//    private fun showMessage(message: String) {
+//        val snackBar = Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
+//        val snackBarLayout = snackBar.view
+//        val layoutParams = snackBarLayout.layoutParams as FrameLayout.LayoutParams
+//        snackBarLayout.setPadding(0, 0, 0, 0)
+//        layoutParams.setMargins(10, 0, 10, 120)
+//        snackBarLayout.layoutParams = layoutParams
+//        snackBarLayout.background = ResourcesCompat.getDrawable(resources, R.drawable.rounded_edittext, null)
+//        snackBar.setTextColor(Color.BLACK)
+//        snackBar.show()
+//    }
+
+
 }

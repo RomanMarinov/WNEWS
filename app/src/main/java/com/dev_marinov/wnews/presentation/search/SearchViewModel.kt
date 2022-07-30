@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dev_marinov.wnews.SingleLiveEvent
-import com.dev_marinov.wnews.domain.ISearchNewsRepository
+import com.dev_marinov.wnews.domain.INewsRepository
 import com.dev_marinov.wnews.domain.News
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val iSearchNewsRepository: ISearchNewsRepository
+    private val iNewsRepository: INewsRepository
 ) : ViewModel() {
     private val api = "f725144c0220437d87363920fe7b20ba" // help https://newsapi.org/docs
 
@@ -31,7 +31,7 @@ class SearchViewModel @Inject constructor(
 
     fun getSearchNews(q: String){
         viewModelScope.launch(Dispatchers.IO) {
-            iSearchNewsRepository.getSearchNews(q, api).let {
+            iNewsRepository.getSearchNews(q, api).let {
                 val list: MutableList<News> = _searchNews.value?.toMutableList()?: mutableListOf()
                 list.addAll(it)
                 _searchNews.postValue(list)

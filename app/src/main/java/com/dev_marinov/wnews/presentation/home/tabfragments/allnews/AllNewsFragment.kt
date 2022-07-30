@@ -1,21 +1,32 @@
 package com.dev_marinov.wnews.presentation.home.tabfragments.allnews
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dev_marinov.wnews.R
 import com.dev_marinov.wnews.databinding.FragmentAllNewsBinding
-import com.dev_marinov.wnews.presentation.favorites.FavoritesFragment
 import com.dev_marinov.wnews.presentation.home.HomeFragmentDirections
+import com.google.android.material.snackbar.Snackbar
 
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+
+import android.widget.FrameLayout
+
+import android.util.Log
+import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.RecyclerView
+
 
 @AndroidEntryPoint
 class AllNewsFragment : Fragment() {
@@ -28,7 +39,7 @@ class AllNewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        return initInterFace(inflater, container)
+        return initInterFace(inflater = inflater, container = container)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,46 +62,53 @@ class AllNewsFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("UnsafeRepeatOnLifecycleDetector")
     private fun setLayout(column: Int){
 
         viewModel = ViewModelProvider(this)[AllNewsViewModel::class.java]
 
-        val homeAdapter = AllNewsAdapter(viewModel::onClick, viewModel::onClickFavorite )
+        val homeAdapter = AllNewsAdapter(viewModel::onClick, viewModel::onClickFavorite)
+
+        homeAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
         val staggeredGridLayoutManager = StaggeredGridLayoutManager(column, StaggeredGridLayoutManager.VERTICAL);
 
         binding.homeRecyclerView.apply {
-            setHasFixedSize(false)
+            setHasFixedSize(true)
             layoutManager = staggeredGridLayoutManager
             adapter = homeAdapter
         }
 
-        viewModel.homeNews.observe(viewLifecycleOwner){
-            homeAdapter.refreshNews(it)
-            binding.swipeContainer.isRefreshing = false;
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED){
+                viewModel.news.collectLatest {
+                    homeAdapter.submitList(it)
+                }
+            }
         }
 
-        // ВОЗМОЖНО НЕ ПРАВИЛЬНО ЧТО ОБРАЩАЮСЬ К viewModel
+        lifecycleScope.launchWhenStarted {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.swipe.collect {
+                    binding.swipeContainer.isRefreshing = it
+                }
+            }
+        }
+
         binding.swipeContainer.setOnRefreshListener {
-            binding.swipeContainer.isRefreshing = true;
-            viewModel.getHomeNews()
+            viewModel.onSwipe()
         }
-
-        // viewModel передает во фграмент список фаворит
-        viewModel.newsFavorite.observe(viewLifecycleOwner){
-            FavoritesFragment.createInstance(it)
-        }
-
     }
 
     private fun setUpNavigation(){
-        viewModel.uploadData.observe(viewLifecycleOwner) {
+        viewModel.uploadData.observe(viewLifecycleOwner, Observer {
             navigateToWebViewFragment(it)
-        }
+        })
     }
 
     private fun navigateToWebViewFragment(url: String) {
         val action = HomeFragmentDirections.actionViewPager2FragmentToAllNewsWebViewFragment(url = url)
         findNavController().navigate(action)
     }
+
 }

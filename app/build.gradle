@@ -7,12 +7,12 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.dev_marinov.wnews"
         minSdk 23
-        targetSdk 31
+        targetSdk 32
         versionCode 1
         versionName "1.0"
 
@@ -44,6 +44,7 @@ android {
 
 dependencies {
     def hilt_version = "2.37"
+    def roomVersion = "2.4.2"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.6.0"
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
@@ -64,7 +65,7 @@ dependencies {
 
     // Асинхронный поток WindowMetrics: чтобы получать уведомления от библиотеки при изменении размера окна,
     // независимо от того, вызывает ли это изменение изменение конфигурации.
-    implementation "androidx.window:window:1.1.0-alpha02"
+    implementation "androidx.window:window:1.1.0-alpha03"
 
     // Lottie
     implementation "com.airbnb.android:lottie:4.2.2"
@@ -76,18 +77,18 @@ dependencies {
 
     //  Lifecycle Components
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
 
     // coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
 
     // navigation
-    implementation 'androidx.navigation:navigation-runtime-ktx:2.5.0'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.0'
+    implementation 'androidx.navigation:navigation-runtime-ktx:2.5.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.1'
 
 //    // Dagger
 //    implementation 'com.google.dagger:dagger:2.42'
@@ -110,6 +111,12 @@ dependencies {
     // viewPager2
     implementation 'androidx.viewpager2:viewpager2:1.1.0-beta01'
 
-    implementation "androidx.activity:activity-ktx:1.5.0"
-    implementation 'androidx.fragment:fragment-ktx:1.5.0'
+    implementation "androidx.activity:activity-ktx:1.5.1"
+    implementation 'androidx.fragment:fragment-ktx:1.5.1'
+
+    // room
+
+    implementation "androidx.room:room-ktx:$roomVersion"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
 }

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dev_marinov.wnews.databinding.ItemNewsBinding
 import com.dev_marinov.wnews.domain.News
-import com.dev_marinov.wnews.presentation.home.tabfragments.allnews.AllNewsAdapter
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 

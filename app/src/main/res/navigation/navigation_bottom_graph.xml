@@ -9,8 +9,10 @@
     <include app:graph="@navigation/home"/>
     <include app:graph="@navigation/favorites"/>
     <include app:graph="@navigation/search"/>
-
-
+    <dialog
+        android:id="@+id/exitDialogFragment"
+        android:name="com.dev_marinov.wnews.presentation.exitdialog.ExitDialogFragment"
+        android:label="ExitDialogFragment" />
 
 
 </navigation>
