@@ -25,9 +25,6 @@ import androidx.navigation.NavBackStackEntry
 
 import androidx.activity.OnBackPressedCallback
 
-
-
-
 @AndroidEntryPoint
 class NewsActivity : AppCompatActivity() {
 
@@ -82,22 +79,15 @@ class NewsActivity : AppCompatActivity() {
         }
     }
 
-//    override fun onBackPressed() {
-//        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment?
-//        navHostFragment?.let {
-//            val backStackEntryCount = navHostFragment.childFragmentManager.backStackEntryCount
-//            if (backStackEntryCount > 0) { super.onBackPressed() } else { showExitDialog() }
-//        }
-//    }
+    override fun onBackPressed() {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment?
+        navHostFragment?.let {
+            val backStackEntryCount = navHostFragment.childFragmentManager.backStackEntryCount
+            if (backStackEntryCount > 0) { super.onBackPressed() } else { showExitDialog() }
+        }
+    }
 
     private fun showExitDialog(){
-       // binding.fragmentContainerView.findNavController().navigate(R.id.action_viewPager2Fragment_to_exitDialogFragment)
+        binding.fragmentContainerView.findNavController().navigate(R.id.action_viewPager2Fragment_to_exitDialogFragment)
     }
 }
-
-// 1. как сделать бот нав вью с разными бекстками
-// 2. как перейти на диалог из нав графа (deeplink)
-// 3. как сделать чтобы не переходило на майнакт
-
-
-

@@ -38,8 +38,7 @@ class ExitDialogFragment : DialogFragment() {
         }
         binding.btYes.setOnClickListener{
             Log.e("333","btYes")
-            requireActivity().finish()
-            exitProcess(0)
+            requireActivity().finishAndRemoveTask()
         }
     }
 }

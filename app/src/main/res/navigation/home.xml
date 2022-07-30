@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_viewPager2Fragment_to_technologyWebViewFragment"
             app:destination="@id/technologyWebViewFragment" />
+        <action
+            android:id="@+id/action_viewPager2Fragment_to_exitDialogFragment"
+            app:destination="@id/exitDialogFragment" />
     </fragment>
 
     <fragment
@@ -96,5 +99,9 @@
             app:argType="string"
             android:defaultValue='' />
     </fragment>
+    <dialog
+        android:id="@+id/exitDialogFragment"
+        android:name="com.dev_marinov.wnews.presentation.exitdialog.ExitDialogFragment"
+        android:label="ExitDialogFragment" />
 
 </navigation>
