@@ -1,11 +1,7 @@
 package com.dev_marinov.wnews.presentation.search
 
 import android.content.res.Configuration
-import android.graphics.Point
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
-import android.view.Display
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,21 +10,15 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.transition.TransitionManager
 import com.dev_marinov.wnews.R
 import com.dev_marinov.wnews.databinding.FragmentSearchBinding
-import com.dev_marinov.wnews.databinding.FragmentSportBinding
-import com.dev_marinov.wnews.presentation.home.tabfragments.sport.SportAdapter
-import com.dev_marinov.wnews.presentation.home.tabfragments.sport.SportViewModel
+import com.dev_marinov.wnews.presentation.adapter.SearchAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.Exception
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
-
-    // GET https://newsapi.org/v2/everything?q=bitcoin&apiKey=f725144c0220437d87363920fe7b20ba
 
     lateinit var binding: FragmentSearchBinding
     lateinit var viewModel: SearchViewModel
@@ -37,7 +27,6 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?): View {
-
         return initInterFace(inflater, container)
     }
 
@@ -57,38 +46,19 @@ class SearchFragment : Fragment() {
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
             setLayout(2)
         }
-
         return binding.root
     }
 
     private fun setLayout(column: Int) {
-
         viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
-
         val searchAdapter = SearchAdapter(viewModel::onClick)
-
         val staggeredGridLayoutManager = StaggeredGridLayoutManager(column, StaggeredGridLayoutManager.VERTICAL);
-
-
-        // ??????
-        //if (searchViewModel.arrayListSearch.size != 0) { layoutChange() }
 
         binding.recyclerView.apply {
             setHasFixedSize(false)
             layoutManager = staggeredGridLayoutManager
             adapter = searchAdapter
         }
-
-
-//        viewModel.searchNews.observe(viewLifecycleOwner){
-//            searchAdapter.refreshNews(it)
-//        }
-
-        val display: Display = requireActivity().getWindowManager().getDefaultDisplay()
-        val size = Point()
-        display.getSize(size)
-        val width = size.x
-        val height = size.y
 
         binding.imgFragmentSearch.setOnClickListener(View.OnClickListener {
             layoutChange()
@@ -108,7 +78,7 @@ class SearchFragment : Fragment() {
         })
 
         viewModel.searchNews.observe(viewLifecycleOwner){
-            searchAdapter.refreshNews(it)
+            searchAdapter.submitList(it)
         }
     }
 
@@ -119,7 +89,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun navigateToWebViewFragment(url: String) {
-        val action = SearchFragmentDirections.actionSearchFragmentToSearchWebViewFragment("https://yandex.ru")
+        val action = SearchFragmentDirections.actionSearchFragmentToSearchWebViewFragment(url)
         findNavController().navigate(action)
     }
 

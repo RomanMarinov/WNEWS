@@ -2,7 +2,6 @@ package com.dev_marinov.wnews.presentation.home.tabfragments.health.healthwebvie
 
 import androidx.lifecycle.ViewModel
 import java.util.*
-import kotlin.collections.ArrayList
 
 class HealthWebViewViewModel : ViewModel(){
 

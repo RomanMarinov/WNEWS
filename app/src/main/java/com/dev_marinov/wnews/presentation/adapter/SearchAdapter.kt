@@ -1,19 +1,20 @@
-package com.dev_marinov.wnews.presentation.search
+package com.dev_marinov.wnews.presentation.adapter
 
 import android.content.res.Resources
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dev_marinov.wnews.databinding.ItemNewsBinding
 import com.dev_marinov.wnews.domain.News
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 
-
 class SearchAdapter(
     private val onClick: (url: String) -> Unit
-) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
+) : ListAdapter<News, SearchAdapter.ViewHolder>(SearchDiffUtilCallback()) {
 
     private var news: List<News> = ArrayList()
 
@@ -33,10 +34,9 @@ class SearchAdapter(
         return news.size
     }
 
-    //передаем данные и оповещаем адаптер о необходимости обновления списка
-    fun refreshNews(list: List<News>) {
-        this.news = list
-        notifyDataSetChanged()
+    override fun submitList(list: List<News>?) {
+        super.submitList(list)
+        list?.let { this.news = it.toList() }
     }
 
     inner class ViewHolder( // inner вложенный класс, который может обращаться к компонентам внешнего класса
@@ -47,10 +47,7 @@ class SearchAdapter(
         fun bind(news: News) {
             binding.itemNews = news
 
-
-
             val width = Resources.getSystem().displayMetrics.widthPixels
-
 
             Picasso.get()
                 .load(news.urlToImage).memoryPolicy(MemoryPolicy.NO_CACHE)
@@ -58,10 +55,21 @@ class SearchAdapter(
                 .into(binding.img) // -----> картинка
 
             binding.cardView.setOnClickListener {
-                onClick(news.url.toString())
+                onClick(news.url)
             }
+        }
+    }
+
+    class SearchDiffUtilCallback : DiffUtil.ItemCallback<News>(){
+        override fun areItemsTheSame(oldItem: News, newItem: News): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: News, newItem: News): Boolean {
+            return oldItem == newItem
         }
 
     }
-
 }
+
+

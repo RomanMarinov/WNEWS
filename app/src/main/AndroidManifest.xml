@@ -15,10 +15,10 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.WNEWS">
         <activity
-            android:name=".presentation.NewsActivity"
+            android:name=".presentation.activity.NewsActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.activity.MainActivity"
             android:noHistory="true"
             android:exported="true">
             <intent-filter>

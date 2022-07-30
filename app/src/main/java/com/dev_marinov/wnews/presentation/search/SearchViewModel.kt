@@ -16,7 +16,6 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val iNewsRepository: INewsRepository
 ) : ViewModel() {
-    private val api = "f725144c0220437d87363920fe7b20ba" // help https://newsapi.org/docs
 
     private val _searchNews: MutableLiveData<List<News>> = MutableLiveData()
     val searchNews: LiveData<List<News>> = _searchNews
@@ -28,10 +27,9 @@ class SearchViewModel @Inject constructor(
         _uploadData.postValue(url)
     }
 
-
     fun getSearchNews(q: String){
         viewModelScope.launch(Dispatchers.IO) {
-            iNewsRepository.getSearchNews(q, api).let {
+            iNewsRepository.getSearchNews(q).let {
                 val list: MutableList<News> = _searchNews.value?.toMutableList()?: mutableListOf()
                 list.addAll(it)
                 _searchNews.postValue(list)

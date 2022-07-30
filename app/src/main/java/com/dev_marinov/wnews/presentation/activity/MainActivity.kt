@@ -1,22 +1,16 @@
-package com.dev_marinov.wnews.presentation
+package com.dev_marinov.wnews.presentation.activity
 
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-
-
 import androidx.navigation.ui.*
-
-
 import androidx.transition.*
-
 import com.dev_marinov.wnews.CircularRevealTransition
 import com.dev_marinov.wnews.R
 import com.dev_marinov.wnews.databinding.ActivityMainBinding
@@ -29,8 +23,8 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    lateinit var rootScene1: ViewGroup
-    lateinit var rootScene2: ViewGroup
+    lateinit var sceneFirst: ViewGroup
+    lateinit var sceneSecond: ViewGroup
     lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,46 +32,49 @@ class MainActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        Log.e("333", "=MainActivity=")
-
-        val rootContainer = binding.rootContainer
-
         hideSystemUI()
 
-        setUpViews(rootContainer)
+        setUpViews(binding.rootContainer)
 
         lifecycleScope.launch(Dispatchers.Main) {
-            showSceneProgressBar(rootContainer)
-            showSceneNextFragment(rootContainer, progressBar)
+            showSceneProgressBar(binding.rootContainer)
+            showSceneNextFragment(binding.rootContainer, progressBar)
         }
-
     }
 
     private fun setUpViews(rootContainer: RelativeLayout) {
-        (layoutInflater.inflate(R.layout.scene_animation_1, rootContainer, false) as? ViewGroup)?.let {
-            rootScene1 = it
+        (layoutInflater.inflate(
+            R.layout.scene_animation_1,
+            rootContainer,
+            false
+        ) as? ViewGroup)?.let {
+            sceneFirst = it
         }
-        (layoutInflater.inflate(R.layout.scene_animation_2, rootContainer, false) as? ViewGroup)?.let {
-            rootScene2 = it
+        (layoutInflater.inflate(
+            R.layout.scene_animation_2,
+            rootContainer,
+            false
+        ) as? ViewGroup)?.let {
+            sceneSecond = it
         }
-        progressBar = rootScene1.findViewById(R.id.progress_bar_scene)
+        progressBar = sceneFirst.findViewById(R.id.progress_bar_scene)
     }
 
     private suspend fun showSceneProgressBar(rootContainer: RelativeLayout) {
-        Log.e("555", "зашел showScene1")
-        progressBar.visibility = View.VISIBLE // показываем progress_bar_scene
+        progressBar.visibility = View.VISIBLE
 
-        val scene = Scene(rootContainer, rootScene1)
+        val scene = Scene(rootContainer, sceneFirst)
         TransitionManager.go(scene, null) // делаем транзакцию в следующую scene_animation_2
 
         delay(2000)
         progressBar.visibility = View.INVISIBLE
     }
 
-    private suspend fun showSceneNextFragment(rootContainer: RelativeLayout, progressBar: ProgressBar) {
-        Log.e("555", "зашел showScene2")
-
-        val scene = Scene(rootContainer, rootScene2)
+    private suspend fun showSceneNextFragment(
+        rootContainer: RelativeLayout,
+        progressBar: ProgressBar
+    ) {
+        val scene = Scene(rootContainer, sceneSecond)
         val transition = makeCircularTransition(rootContainer)
         TransitionManager.go(scene, transition)
 
@@ -87,23 +84,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun makeCircularTransition(rootContainer: RelativeLayout): Transition {
-        Log.e("555", "зашел getScene2Transition")
         val transitionSet = TransitionSet()
 
-        //ChangeBounds переход, меняет позицию
         val changeBounds = ChangeBounds()
         changeBounds.addListener(object : TransitionListenerAdapter() {
             override fun onTransitionEnd(transition: Transition) {
-                Log.e("555", "зашел getScene2Transition changeTransform.addListener")
-                // скрыть progress_bar в конце анимации
-                rootContainer.findViewById<View>(R.id.progress_bar_scene).visibility = View.INVISIBLE
+                rootContainer.findViewById<View>(R.id.progress_bar_scene).visibility =
+                    View.INVISIBLE
             }
         })
 
         changeBounds.addTarget(R.id.progress_bar_scene)
         changeBounds.duration = 300
 
-        // путь дуги
         val arcMotion = ArcMotion()
         arcMotion.maximumAngle = 45F
         arcMotion.minimumHorizontalAngle = 90F

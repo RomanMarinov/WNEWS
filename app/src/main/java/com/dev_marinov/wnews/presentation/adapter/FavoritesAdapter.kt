@@ -1,17 +1,15 @@
-package com.dev_marinov.wnews.presentation.favorites
+package com.dev_marinov.wnews.presentation.adapter
 
 import android.content.res.Resources
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
-
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dev_marinov.wnews.R
 import com.dev_marinov.wnews.databinding.ItemNewsFavoriteBinding
 import com.dev_marinov.wnews.domain.News
-import com.dev_marinov.wnews.presentation.home.tabfragments.business.BusinessAdapter
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 
@@ -43,13 +41,7 @@ class FavoritesAdapter(
         list?.let { this.news = it.toList() }
     }
 
-//    //передаем данные и оповещаем адаптер о необходимости обновления списка
-//    fun refreshNews(list: List<News>) {
-//        this.news = list
-//        notifyDataSetChanged()
-//    }
-
-    inner class ViewHolder( // inner вложенный класс, который может обращаться к компонентам внешнего класса
+    inner class ViewHolder(
         private val binding: ItemNewsFavoriteBinding,
         private val onClick: (url: String) -> Unit,
         private val onClickFavorite: (news: News) -> Unit
@@ -68,28 +60,14 @@ class FavoritesAdapter(
                     .into(binding.img)
             }
 
-            // написать условие для установки красного избранное
-            //setBackgroundFavorite(news.isSelected)
-
             binding.cardView.setOnClickListener {
                 onClick(news.url)
             }
 
-            // клик для фаворита
             binding.llFavorite.setOnClickListener {
-                // удалить новость
-
                 onClickFavorite(news)
             }
         }
-
-//        private fun setBackgroundFavorite(isSelected: Boolean) {
-//                return if (isSelected) {
-//                    binding.imgFavorite.setBackgroundResource(R.drawable.ic_favorite_on)
-//                } else {
-//                    binding.imgFavorite.setBackgroundResource(R.drawable.ic_favorite_off)
-//                }
-//            }
     }
 
     class AllNewsDiffUtilCallback : DiffUtil.ItemCallback<News>() {
@@ -106,7 +84,5 @@ class FavoritesAdapter(
         ): Boolean {
             return oldItem == newItem
         }
-
     }
-
 }

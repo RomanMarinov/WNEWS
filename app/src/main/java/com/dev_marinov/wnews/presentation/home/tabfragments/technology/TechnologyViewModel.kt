@@ -17,10 +17,7 @@ class TechnologyViewModel @Inject constructor(
     private val iNewsRepository: INewsRepository
 ): ViewModel() {
 
-    private val country = "ru"
     private val category = "technology"
-    private val pageSize = 100
-    private val api = "f725144c0220437d87363920fe7b20ba" // help https://newsapi.org/docs
 
     private val _uploadData = SingleLiveEvent<String>()
     val uploadData: SingleLiveEvent<String> = _uploadData
@@ -93,7 +90,7 @@ class TechnologyViewModel @Inject constructor(
 
     private fun getCategoryNews() {
         viewModelScope.launch(Dispatchers.IO) {
-            iNewsRepository.getCategoryNews(country, category, pageSize, api)?.let {
+            iNewsRepository.getCategoryNews(category)?.let {
                 _news.value = it
                 _swipe.value = false
 

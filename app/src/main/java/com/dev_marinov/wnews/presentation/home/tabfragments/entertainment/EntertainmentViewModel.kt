@@ -15,12 +15,9 @@ import javax.inject.Inject
 @HiltViewModel
 class EntertainmentViewModel @Inject constructor(
     private val iNewsRepository: INewsRepository
-): ViewModel() {
+) : ViewModel() {
 
-    private val country = "ru"
     private val category = "entertainment"
-    private val pageSize = 100
-    private val api = "f725144c0220437d87363920fe7b20ba" // help https://newsapi.org/docs
 
     private val _uploadData = SingleLiveEvent<String>()
     val uploadData: SingleLiveEvent<String> = _uploadData
@@ -52,7 +49,7 @@ class EntertainmentViewModel @Inject constructor(
         getCategoryNews()
     }
 
-    fun onSwipe(){
+    fun onSwipe() {
         _swipe.value = true
         getCategoryNews()
     }
@@ -61,7 +58,6 @@ class EntertainmentViewModel @Inject constructor(
         uploadData.postValue(url)
     }
 
-    // запись в бд
     fun onClickFavorite(news: SelectableFavoriteNews) {
         viewModelScope.launch(Dispatchers.IO) {
 
@@ -75,10 +71,9 @@ class EntertainmentViewModel @Inject constructor(
         }
     }
 
-
     private fun getCategoryNews() {
         viewModelScope.launch(Dispatchers.IO) {
-            iNewsRepository.getCategoryNews(country, category, pageSize, api)?.let {
+            iNewsRepository.getCategoryNews(category)?.let {
                 _news.value = it
                 _swipe.value = false
             }

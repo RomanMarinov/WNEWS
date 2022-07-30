@@ -2,18 +2,14 @@ package com.dev_marinov.wnews.presentation.home.tabfragments.health
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -21,10 +17,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dev_marinov.wnews.R
-import com.dev_marinov.wnews.databinding.FragmentBusinessBinding
 import com.dev_marinov.wnews.databinding.FragmentHealthBinding
+import com.dev_marinov.wnews.presentation.adapter.NewsAdapter
 import com.dev_marinov.wnews.presentation.home.HomeFragmentDirections
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -33,13 +28,12 @@ import kotlinx.coroutines.launch
 class HealthFragment : Fragment() {
 
     lateinit var binding: FragmentHealthBinding
-    lateinit var viewModel: HealthViewModel
+    val viewModel by viewModels<HealthViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         return initInterFace(inflater, container)
     }
 
@@ -50,7 +44,6 @@ class HealthFragment : Fragment() {
 
     private fun initInterFace(inflater: LayoutInflater, container: ViewGroup?): View {
         container?.let { container.removeAllViewsInLayout() }
-
         val orientation = requireActivity().resources.configuration.orientation
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_health, container, false)
@@ -59,19 +52,17 @@ class HealthFragment : Fragment() {
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_health, container, false)
             setLayout(2)
         }
-
         return binding.root
     }
 
     @SuppressLint("UnsafeRepeatOnLifecycleDetector")
-    private fun setLayout(column: Int){
-        viewModel = ViewModelProvider(this)[HealthViewModel::class.java]
+    private fun setLayout(column: Int) {
 
-        val adapter = HealthAdapter(viewModel::onClick, viewModel::onClickFavorite)
-
-        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-
-        val staggeredGridLayoutManager = StaggeredGridLayoutManager(column, StaggeredGridLayoutManager.VERTICAL);
+        val adapter = NewsAdapter(viewModel::onClick, viewModel::onClickFavorite)
+        adapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        val staggeredGridLayoutManager =
+            StaggeredGridLayoutManager(column, StaggeredGridLayoutManager.VERTICAL);
 
         binding.recyclerView.apply {
             setHasFixedSize(false)
@@ -80,7 +71,7 @@ class HealthFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED){
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.news.collectLatest {
                     adapter.submitList(it)
                 }
@@ -100,7 +91,7 @@ class HealthFragment : Fragment() {
         }
     }
 
-    private fun setUpNavigation(){
+    private fun setUpNavigation() {
         viewModel.uploadData.observe(viewLifecycleOwner) {
             navigateToWebViewFragment(it)
         }
@@ -110,5 +101,4 @@ class HealthFragment : Fragment() {
         val action = HomeFragmentDirections.actionViewPager2FragmentToHealthWebViewFragment(url)
         findNavController().navigate(action)
     }
-
 }

@@ -2,7 +2,6 @@ package com.dev_marinov.wnews.presentation.home.tabfragments.allnews
 
 import androidx.lifecycle.*
 import com.dev_marinov.wnews.SingleLiveEvent
-
 import com.dev_marinov.wnews.domain.INewsRepository
 import com.dev_marinov.wnews.domain.News
 import com.dev_marinov.wnews.presentation.model.SelectableFavoriteNews
@@ -12,20 +11,14 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class AllNewsViewModel @Inject constructor(
     private val newsRepository: INewsRepository,
 ) : ViewModel() {
 
-    private val api = "f725144c0220437d87363920fe7b20ba" // help https://newsapi.org/docs
-    private var country = "ru"
-    private val pageSize = 100
-
     private val _uploadData = SingleLiveEvent<String>()
     val uploadData: SingleLiveEvent<String> = _uploadData
 
-    // room
     private val favoriteNews: Flow<List<News>> = newsRepository.getNewsFavorite().map {
         it.sortedBy { news ->
             news.publishedAt
@@ -64,7 +57,6 @@ class AllNewsViewModel @Inject constructor(
         uploadData.postValue(url)
     }
 
-    // запись в бд
     fun onClickFavorite(news: SelectableFavoriteNews) {
         viewModelScope.launch(Dispatchers.IO) {
 
@@ -80,7 +72,7 @@ class AllNewsViewModel @Inject constructor(
 
     private fun getHomeNews() {
         viewModelScope.launch(Dispatchers.IO) {
-            newsRepository.getNews(country, pageSize, api)?.let {
+            newsRepository.getNews()?.let {
                 _news.value = it
                 _isLoaderVisible.value = false
             }

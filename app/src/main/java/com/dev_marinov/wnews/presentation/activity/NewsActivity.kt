@@ -1,4 +1,4 @@
-package com.dev_marinov.wnews.presentation
+package com.dev_marinov.wnews.presentation.activity
 
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -18,13 +18,6 @@ import com.dev_marinov.wnews.databinding.ActivityNewsBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
-
-import androidx.navigation.NavDestination
-
-import androidx.navigation.NavBackStackEntry
-
-import androidx.activity.OnBackPressedCallback
-
 @AndroidEntryPoint
 class NewsActivity : AppCompatActivity() {
 
@@ -39,24 +32,7 @@ class NewsActivity : AppCompatActivity() {
 
         hideSystemUI()
 
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-        navController = navHostFragment.navController
-
-        // Настраиваем нижний вид навигации с помощью navController
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNavigationView.setupWithNavController(navController)
-
-        // Настраиваем ActionBar с navController и 3 пунктами назначения верхнего уровня
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.viewPager2Fragment,
-                R.id.favoritesFragment,
-                R.id.searchFragment
-            )
-        )
-        //setupActionBarWithNavController(navController, appBarConfiguration)
-
+        setUpNavigation()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -79,15 +55,39 @@ class NewsActivity : AppCompatActivity() {
         }
     }
 
+    private fun setUpNavigation() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        navController = navHostFragment.navController
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNavigationView.setupWithNavController(navController)
+
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.viewPager2Fragment,
+                R.id.favoritesFragment,
+                R.id.searchFragment
+            )
+        )
+        //setupActionBarWithNavController(navController, appBarConfiguration)
+    }
+
     override fun onBackPressed() {
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment?
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment?
         navHostFragment?.let {
             val backStackEntryCount = navHostFragment.childFragmentManager.backStackEntryCount
-            if (backStackEntryCount > 0) { super.onBackPressed() } else { showExitDialog() }
+            if (backStackEntryCount > 0) {
+                super.onBackPressed()
+            } else {
+                showExitDialog()
+            }
         }
     }
 
-    private fun showExitDialog(){
-        binding.fragmentContainerView.findNavController().navigate(R.id.action_viewPager2Fragment_to_exitDialogFragment)
+    private fun showExitDialog() {
+        binding.fragmentContainerView.findNavController()
+            .navigate(R.id.action_viewPager2Fragment_to_exitDialogFragment)
     }
 }

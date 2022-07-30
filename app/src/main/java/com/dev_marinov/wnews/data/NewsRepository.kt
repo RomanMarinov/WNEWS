@@ -19,8 +19,8 @@ class NewsRepository @Inject constructor(
     private val newsDao: NewsDao,
     private val newsService: NewsService) : INewsRepository {
 
-    override suspend fun getNews(country: String, pageSize: Int, api: String): List<News>? {
-        val response = newsService.getNews(country = country, pageSize = pageSize, apiKey = api)
+    override suspend fun getNews(): List<News>? {
+        val response = newsService.getNews()
         val news = response.body()?.let {
             it.articles.map { news ->
                 news.mapToDomain()
@@ -29,9 +29,9 @@ class NewsRepository @Inject constructor(
         return news
     }
 
-    override suspend fun getCategoryNews(country: String, category: String, pageSize: Int, api: String
+    override suspend fun getCategoryNews(category: String
     ): List<News> {
-        val response = newsService.getCategoryNews(country = country, category = category, pageSize = pageSize, apiKey = api)
+        val response = newsService.getCategoryNews(category = category)
         val news = response.body()?.let {
             it.articles.map { news ->
                 news.mapToDomain()
@@ -40,8 +40,8 @@ class NewsRepository @Inject constructor(
         return news
     }
 
-    override suspend fun getSearchNews(q: String, api: String): List<News> {
-        val response = newsService.getSearchNews(q = q, apiKey = api)
+    override suspend fun getSearchNews(q: String): List<News> {
+        val response = newsService.getSearchNews(q = q)
         val news = response.body()?.let {
             it.articles.map { news ->
                 news.mapToDomain()

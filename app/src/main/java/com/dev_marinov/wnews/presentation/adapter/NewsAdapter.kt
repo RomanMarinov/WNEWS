@@ -1,23 +1,22 @@
-package com.dev_marinov.wnews.presentation.home.tabfragments.business
+package com.dev_marinov.wnews.presentation.adapter
 
-import android.content.res.Resources
-import android.view.Gravity
-import android.view.LayoutInflater
+import android.content.res.Resources.getSystem
 import android.view.ViewGroup
+import android.view.LayoutInflater
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.dev_marinov.wnews.R
-import com.dev_marinov.wnews.databinding.ItemNewsBinding
-
-import com.dev_marinov.wnews.presentation.model.SelectableFavoriteNews
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
+import android.view.Gravity
+import com.dev_marinov.wnews.R
+import com.dev_marinov.wnews.databinding.ItemNewsBinding
+import com.dev_marinov.wnews.presentation.model.SelectableFavoriteNews
 
-class BusinessAdapter (
+class NewsAdapter(
     private val onClick: (url: String) -> Unit,
     private val onClickFavorite: (news: SelectableFavoriteNews) -> Unit
-) : ListAdapter<SelectableFavoriteNews, BusinessAdapter.ViewHolder>(AllNewsDiffUtilCallback()) {
+) : ListAdapter<SelectableFavoriteNews, NewsAdapter.ViewHolder>(AllNewsDiffUtilCallback()) {
 
     private var news: List<SelectableFavoriteNews> = ArrayList()
 
@@ -51,7 +50,7 @@ class BusinessAdapter (
         fun bind(news: SelectableFavoriteNews) {
             binding.itemNews = news.news
 
-            val width = Resources.getSystem().displayMetrics.widthPixels
+            val width = getSystem().displayMetrics.widthPixels
 
             news.news.urlToImage?.let {
                 Picasso.get()
@@ -61,13 +60,12 @@ class BusinessAdapter (
                     .into(binding.img)
             }
 
-            // написать условие для установки красного избранное
             setBackgroundFavorite(news.isSelected)
 
             binding.cardView.setOnClickListener {
                 onClick(news.news.url)
             }
-            // клик для фаворита
+
             binding.llFavorite.setOnClickListener {
                 onClickFavorite(news)
             }
@@ -99,6 +97,6 @@ class BusinessAdapter (
         ): Boolean {
             return oldItem.isSelected == newItem.isSelected
         }
-
     }
 }
+

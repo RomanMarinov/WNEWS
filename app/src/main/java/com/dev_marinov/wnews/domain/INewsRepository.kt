@@ -7,11 +7,11 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface INewsRepository {
 
-    suspend fun getNews(country: String, pageSize: Int, api: String): List<News>?
+    suspend fun getNews(): List<News>?
 
-    suspend fun getCategoryNews(country: String, category: String, pageSize: Int, api: String) : List<News>
+    suspend fun getCategoryNews(category: String) : List<News>
 
-    suspend fun getSearchNews(q: String, api: String): List<News>
+    suspend fun getSearchNews(q: String): List<News>
 
     suspend fun saveInFavorite(news: News)
 

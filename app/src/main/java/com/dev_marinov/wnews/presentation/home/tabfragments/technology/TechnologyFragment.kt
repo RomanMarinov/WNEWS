@@ -2,18 +2,14 @@ package com.dev_marinov.wnews.presentation.home.tabfragments.technology
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -21,11 +17,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dev_marinov.wnews.R
-import com.dev_marinov.wnews.databinding.FragmentSportBinding
 import com.dev_marinov.wnews.databinding.FragmentTechnologyBinding
+import com.dev_marinov.wnews.presentation.adapter.NewsAdapter
 import com.dev_marinov.wnews.presentation.home.HomeFragmentDirections
-import com.dev_marinov.wnews.presentation.home.tabfragments.science.ScienceAdapter
-import com.google.android.material.snackbar.Snackbar
 
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -35,7 +29,7 @@ import kotlinx.coroutines.launch
 class TechnologyFragment : Fragment() {
 
     lateinit var binding: FragmentTechnologyBinding
-    lateinit var viewModel: TechnologyViewModel
+    private val viewModel by viewModels<TechnologyViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,9 +61,8 @@ class TechnologyFragment : Fragment() {
 
     @SuppressLint("UnsafeRepeatOnLifecycleDetector")
     private fun setLayout(column: Int){
-        viewModel = ViewModelProvider(this)[TechnologyViewModel::class.java]
 
-        val adapter = ScienceAdapter(viewModel::onClick, viewModel::onClickFavorite)
+        val adapter = NewsAdapter(viewModel::onClick, viewModel::onClickFavorite)
 
         adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
@@ -80,11 +73,6 @@ class TechnologyFragment : Fragment() {
             layoutManager = staggeredGridLayoutManager
             this.adapter = adapter
         }
-
-//        viewModel.event.observe(viewLifecycleOwner, Observer {
-//            Log.e("333", "=it=$it")
-//            showMessage(it.message)
-//        })
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED){
@@ -117,7 +105,6 @@ class TechnologyFragment : Fragment() {
         val action = HomeFragmentDirections.actionViewPager2FragmentToTechnologyWebViewFragment(url)
         findNavController().navigate(action)
     }
-
 
 //    private fun showMessage(message: String) {
 //        val snackBar = Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)

@@ -2,7 +2,6 @@ package com.dev_marinov.wnews.presentation.home.tabfragments.allnews.allnewswebv
 
 import androidx.lifecycle.ViewModel
 import java.util.*
-import kotlin.collections.ArrayList
 
 class AllNewsWebViewViewModel : ViewModel(){
 
